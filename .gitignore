@@ -1,0 +1,5 @@
+.idea
+
+dataset/data
+pretrained/*.pt
+pretrained/*.pth
