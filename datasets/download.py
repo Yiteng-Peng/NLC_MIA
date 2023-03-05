@@ -1,5 +1,5 @@
 import argparse
-from torchvision import datasets
+import torchvision
 
 dataset_list = [
     'ImageNet', 
@@ -27,4 +27,5 @@ def download_data(dataset_name, output_folder):
         torchvision.datasets.MNIST(output_folder, download=True, train=False)
 
 if __name__ == "__main__":
-    download_data(parser.d, parser.o)
+    args = parser.parse_args()
+    download_data(args.dataset, args.output)

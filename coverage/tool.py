@@ -7,7 +7,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torchvision
 
-import constants
+PAD_LENGTH = 32
 
 def scale(out, dim=-1, rmax=1, rmin=0):
     out_max = out.max(dim)[0].unsqueeze(dim)
@@ -62,7 +62,7 @@ def get_model_layers(model):
     #     print(k, ': ', layer_dict[k])
     return layer_dict
 
-def get_layer_output_sizes(model, data, pad_length=constants.PAD_LENGTH):   
+def get_layer_output_sizes(model, data, pad_length=PAD_LENGTH):
     output_sizes = {}
     hooks = []
     name_counter = {}
@@ -99,7 +99,7 @@ def get_layer_output_sizes(model, data, pad_length=constants.PAD_LENGTH):
     #     print(k, ': ', output_sizes[k])
     return unrolled_output_sizes
 
-def get_layer_output(model, data, pad_length=constants.PAD_LENGTH):
+def get_layer_output(model, data, pad_length=PAD_LENGTH):
     with torch.no_grad():
         name_counter = {}        
         layer_output_dict = {}
