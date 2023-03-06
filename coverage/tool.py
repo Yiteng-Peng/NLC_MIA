@@ -9,6 +9,11 @@ import torchvision
 
 PAD_LENGTH = 32
 
+
+'''
+作用：在指定维度（默认是最后一个维度）上作缩放，默认是缩放到1~0上
+参数：out：需要被缩放的数据，dim：维度，rmax：缩放的最大值，rmin：缩放的最小值
+'''
 def scale(out, dim=-1, rmax=1, rmin=0):
     out_max = out.max(dim)[0].unsqueeze(dim)
     out_min = out.min(dim)[0].unsqueeze(dim)
@@ -21,6 +26,10 @@ def scale(out, dim=-1, rmax=1, rmin=0):
     output_scaled = output_std * (rmax - rmin) + rmin
     return output_scaled
 
+'''
+作用：能判断的层的类型
+参数：module: 层的类
+'''
 def is_valid(module):
     return (isinstance(module, nn.Linear)
             or isinstance(module, nn.Conv2d)
@@ -31,6 +40,10 @@ def is_valid(module):
             or isinstance(module, nn.GRU)
             )
 
+'''
+作用：遍历所有子模块以确定能获得所有的层的信息
+参数：name：当前的模块名 module：当前的模块（层的集合，或者层） namelist：模块名合集 module：模块合集
+'''
 def iterate_module(name, module, name_list, module_list):
     if is_valid(module):
         return name_list + [name], module_list + [module]
@@ -42,12 +55,17 @@ def iterate_module(name, module, name_list, module_list):
                     iterate_module(child_name, child_module, name_list, module_list)
         return name_list, module_list
 
+'''
+作用：返回层的字典，键为层的名字，值为层的属性。
+例子：{'Conv2d-1': Conv2d(1, 6, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2))}
+参数：model：机器学习模型
+'''
 def get_model_layers(model):
     layer_dict = {}
     name_counter = {}
     for name, module in model.named_children():
         name_list, module_list = iterate_module(name, module, [], [])
-        assert len(name_list) == len(module_list)
+        assert len(name_list) == len(module_list)   # 确保已经查询完毕
         for i, _ in enumerate(name_list):
             module = module_list[i]
             class_name = module.__class__.__name__
@@ -62,13 +80,23 @@ def get_model_layers(model):
     #     print(k, ': ', layer_dict[k])
     return layer_dict
 
+'''
+作用：获取层的输出规模，规模用数组表示
+例子：{'Conv2d-1': [6, 28, 28], 'Conv2d-2': [16, 10, 10], 'Linear-1': [120], 'Linear-2': [84], 'Linear-3': [10]}
+参数：model：模型，data：为了获取数据规模给的随机数据，pad_length：模型为了输入的时候需要给的padding，只有RNN，LSTM，GRU会使用
+'''
 def get_layer_output_sizes(model, data, pad_length=PAD_LENGTH):
     output_sizes = {}
     hooks = []
     name_counter = {}
     layer_dict = get_model_layers(model)
+
+    # pytorch内部hook函数，每次forward()计算输出后都会调用该钩子。它不应该在内部改变output
+    # 输入是模型/层，模型/层的输入，输出
+    # 闭包
     def hook(module, input, output):
         class_name = module.__class__.__name__
+        # 统计同一种类型的层的数目
         if class_name not in name_counter.keys():
             name_counter[class_name] = 1
         else:
@@ -78,8 +106,10 @@ def get_layer_output_sizes(model, data, pad_length=PAD_LENGTH):
         else:
             output_sizes['%s-%d' % (class_name, name_counter[class_name])] = list(output.size()[1:])
 
+    # 给每一层加hook
     for name, module in layer_dict.items():
         hooks.append(module.register_forward_hook(hook))
+
     try:
         model(data)
     finally:
@@ -104,6 +134,8 @@ def get_layer_output(model, data, pad_length=PAD_LENGTH):
         name_counter = {}        
         layer_output_dict = {}
         layer_dict = get_model_layers(model)
+        
+        # 用字典的方式取出模型中层的输出
         def hook(module, input, output):
             class_name = module.__class__.__name__
             if class_name not in name_counter.keys():

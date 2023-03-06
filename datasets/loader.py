@@ -27,7 +27,7 @@ def _MINST_loader(batch_size, shuffle, mode, loader):
             return X_test, y_test
 
 
-def data_loader(dataset_name, mode, loader:bool, batch_size=16, shuffle=True):
+def data_loader(dataset_name, mode, loader:bool, batch_size=1, shuffle=False):
     if mode != "train" and mode != "test":
         print("Wrong mode, mode should be train or test")
 
