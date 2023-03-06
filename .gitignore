@@ -1,6 +1,8 @@
 .idea
 __pycache__
 
+mia_data/*.list
+mia_data/*.txt
 datasets/data
 pretrained/*.pt
 pretrained/*.pth
