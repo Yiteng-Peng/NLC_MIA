@@ -27,7 +27,7 @@ input_size    = 28
 # mia setting
 mia_file_path = "./mia_data"
 mia_mode      = "txt"
-mia_file_name = "%s-%s" % (model_name, data_name)       # 扩展名在写入的时候添加
+mia_file_name = "%s-%s-%s" % (model_name, data_name, data_mode)       # 扩展名在写入的时候添加
 
 def load(model, mode):
     if mode == "s":
