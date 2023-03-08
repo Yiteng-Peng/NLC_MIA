@@ -6,13 +6,14 @@ import matplotlib.pyplot as plt
 # model
 model_name = "Lenet5"
 data_name = "MNIST"
-mia_data_path = "./mia_data"
+mia_data_path = "./cover_data"
+coverage_type = "NC"
 
 
 def load_df(mia_data_path, model_name, data_name, data_type):
     df = pd.DataFrame(data=None, columns=[data_type])
 
-    pattern = model_name + "-" + data_name + "-" + data_type + ".*txt"
+    pattern = model_name + "-" + data_name + "-" + data_type + "-" + coverage_type + ".*txt"
     re_pattern = re.compile(pattern=pattern)
 
     file_list = os.listdir(mia_data_path)

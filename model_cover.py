@@ -24,10 +24,13 @@ load_path = "pretrained/%s.pt" % (model_name + "_" + load_mode)
 input_channel = 1
 input_size    = 28
 
+# coverage type
+coverage_type = "NC"
+
 # mia setting
 mia_file_path = "./mia_data"
 mia_mode      = "txt"
-mia_file_name = "%s-%s-%s" % (model_name, data_name, data_mode)       # 扩展名在写入的时候添加
+mia_file_name = "%s-%s-%s-%s" % (model_name, data_name, data_mode, coverage_type)       # 扩展名在写入的时候添加
 
 def load(model, mode):
     if mode == "s":

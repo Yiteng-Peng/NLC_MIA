@@ -78,6 +78,9 @@ class Coverage:
         self.mia_tag = True
         self.mia_path = os.path.join(file_path, file_name)
 
+    '''
+    考虑到存储的体积问题，我们一万个数据存储一次，当然这个后期可以改
+    '''
     def mia_assess(self, data_loader):
         if not self.mia_tag:
             print("please call mia_set first")
