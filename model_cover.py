@@ -45,9 +45,9 @@ def load(model, mode):
 
 if __name__ == "__main__":
     #1. Get layer size of model
-    input_size = (1, input_channel, input_size, input_size)
+    input_shape = (1, input_channel, input_size, input_size)
     cur_model = load(cur_model, load_mode)
-    random_input = torch.randn(input_size).to(DEVICE)
+    random_input = torch.randn(input_shape).to(DEVICE)
     layer_size_dict = tool.get_layer_output_sizes(cur_model, random_input)
 
     #2. Calculation

@@ -58,7 +58,7 @@ class Coverage:
         else:
             self.current = self.coverage(all_cove_dict)
 
-    # 计算覆盖率和上一次的差值
+    # 计算覆盖率和上一次的差值,或许可以考虑train和test覆盖率的变化情况?
     def gain(self, cove_dict_new):
         new_rate = self.coverage(cove_dict_new)
         return new_rate - self.current

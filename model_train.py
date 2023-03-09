@@ -1,6 +1,5 @@
 import torch
-from torch import nn
-from torch import optim
+from torch import nn, optim
 from tqdm import tqdm, trange
 
 import models

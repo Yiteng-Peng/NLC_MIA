@@ -55,7 +55,7 @@ English Title: Research of Member Inference Defense Based on Coverage
 - - data
 - - - 数据集名称
 - - - - 常规数据
-- - - - MIA推断的数据，命名方式为（mia_{攻击方式}）
+- - - - 用于MIA攻击后分割的数据
 - 调用数据的脚本文件
 ```
 
@@ -75,6 +75,7 @@ English Title: Research of Member Inference Defense Based on Coverage
 
 ```
 - mia
+- - attack_result：mia攻击的结果
 - - shadow_data  ：存储生成的影子数据
 - - synthesis	 ：生成影子数据的脚本
 - shadow_model	 ：影子模型类
