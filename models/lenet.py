@@ -1,5 +1,7 @@
+import torch
 from torch import nn
 import torch.nn.functional as F
+
 
 class LeNet5(nn.Module):
     def __init__(self):
@@ -22,3 +24,16 @@ class LeNet5(nn.Module):
         x = F.relu(self.fc2(x))
         x = self.fc3(x)
         return x
+
+
+def lenet5(pretrained=False, mode_path=None, device="cpu"):
+    if pretrained:
+        if "_@s" in mode_path:
+            model = LeNet5().to(device)
+            model.load_state_dict(torch.load(mode_path, map_location=device))
+        elif "_@m" in mode_path:
+            model = torch.load(mode_path, map_location=device)
+    else:
+        model = LeNet5().to(device)
+
+    return model

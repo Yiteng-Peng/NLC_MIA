@@ -21,6 +21,7 @@ class KMNC(Coverage):
         self.coverage_dict = {'multisec': coverage_multisec_dict}
         self.current = 0
 
+    # 明白了，相当于整个覆盖率要过两遍，第一遍计算阈值，第二遍才正式计算覆盖率
     def build(self, data_loader):
         print('Building range...')
         for data, *_ in tqdm(data_loader):
@@ -35,15 +36,13 @@ class KMNC(Coverage):
         for (layer_name, layer_output) in layer_output_dict.items():
             cur_max, _ = layer_output.max(0)
             cur_min, _ = layer_output.min(0)
-            is_less = cur_min < self.range_dict[layer_name][0]
-            is_greater = cur_max > self.range_dict[layer_name][1]
+            is_less = cur_min < self.range_dict[layer_name][0]      # 最小值小于设置的上限
+            is_greater = cur_max > self.range_dict[layer_name][1]   # 最大值大于设置的下限
             self.range_dict[layer_name][0] = is_less * cur_min + ~is_less * self.range_dict[layer_name][0]
             self.range_dict[layer_name][1] = is_greater * cur_max + ~is_greater * self.range_dict[layer_name][1]
 
     def calculate(self, data):
         multisec_cove_dict = {}
-        lower_cove_dict = {}
-        upper_cove_dict = {}
         layer_output_dict = tool.get_layer_output(self.model, data)
         for (layer_name, layer_output) in layer_output_dict.items():
             [l_bound, u_bound] = self.range_dict[layer_name]

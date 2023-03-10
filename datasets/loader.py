@@ -8,34 +8,61 @@ from torch.utils.data import DataLoader, TensorDataset
 
 DATASET_PATH = "E:/PengYiteng/NLC_MIA/datasets"
 
-def _MINST_loader(batch_size, shuffle, mode, loader):
+
+def _CIFAR10(mode):
+    if mode == "train":
+        train = datasets.CIFAR10(os.path.join(DATASET_PATH, 'data'), download=True, train=True)
+        X_train = train.data.unsqueeze(1) / 255.0  # 归一化
+        y_train = train.targets
+        return X_train, y_train
+    elif mode == "test":
+        test = datasets.CIFAR10(os.path.join(DATASET_PATH, 'data'), download=True, train=False)
+        X_test = test.data.unsqueeze(1) / 255.0  # 归一化
+        y_test = test.targets
+        return X_test, y_test
+    else:
+        raise NotImplementedError("Wrong mode, mode should be train or test")
+
+
+def _CIFAR100(mode):
+    if mode == "train":
+        train = datasets.CIFAR100(os.path.join(DATASET_PATH, 'data'), download=True, train=True)
+        X_train = train.data.unsqueeze(1) / 255.0  # 归一化
+        y_train = train.targets
+        return X_train, y_train
+    elif mode == "test":
+        test = datasets.CIFAR100(os.path.join(DATASET_PATH, 'data'), download=True, train=False)
+        X_test = test.data.unsqueeze(1) / 255.0  # 归一化
+        y_test = test.targets
+        return X_test, y_test
+    else:
+        raise NotImplementedError("Wrong mode, mode should be train or test")
+
+
+def _MINST(mode):
     if mode == "train":
         train = datasets.MNIST(os.path.join(DATASET_PATH, 'data'), download=True, train=True)
         X_train = train.data.unsqueeze(1)/255.0 # 归一化
         y_train = train.targets
-        if loader:
-            return DataLoader(TensorDataset(X_train, y_train), batch_size=batch_size, shuffle=shuffle)
-        else:
-            return X_train, y_train
+        return X_train, y_train
     elif mode == "test":
         test = datasets.MNIST(os.path.join(DATASET_PATH, 'data'), download=True, train=False)
         X_test = test.data.unsqueeze(1)/255.0 # 归一化
         y_test = test.targets
-        if loader:
-            return DataLoader(TensorDataset(X_test, y_test), batch_size=batch_size, shuffle=shuffle)
-        else:
-            return X_test, y_test
+        return X_test, y_test
+    else:
+        raise NotImplementedError("Wrong mode, mode should be train or test")
 
 
-def data_loader(dataset_name, mode, loader:bool, batch_size=1, shuffle=False):
+# 输出所有数据和标签的组合，在这里面进行归一化或者整理数据等操作
+# name：数据集的名字 mode：模式，只有train和test
+def datasets(name, mode):
     if mode != "train" and mode != "test":
         print("Wrong mode, mode should be train or test")
 
-    if dataset_name == 'ImageNet':
-        pass
-    elif dataset_name == 'CIFAR10':
-        pass
-    elif dataset_name == 'CIFAR100':
-        pass
-    elif dataset_name == 'MNIST':
-        return _MINST_loader(batch_size, shuffle, mode, loader)
+    if name == 'CIFAR10':
+        return _CIFAR10(mode)
+    elif name == 'CIFAR100':
+        return _CIFAR100(mode)
+    elif name == 'MNIST':
+        return _MINST(mode)

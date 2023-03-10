@@ -8,10 +8,11 @@ class NC(Coverage):
         self.name = "NC"
 
         self.threshold = hyper
-        self.coverage_dict = {}
 
+        self.coverage_dict = {}
         for (layer_name, layer_size) in self.layer_size_dict.items():
-            self.coverage_dict[layer_name] = torch.zeros(layer_size[0]).type(torch.BoolTensor).to(self.device)
+            num_neuron = layer_size[0]
+            self.coverage_dict[layer_name] = torch.zeros(num_neuron).type(torch.BoolTensor).to(self.device)
 
         self.current = 0
 

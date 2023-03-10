@@ -5,7 +5,6 @@ from tqdm import tqdm, trange
 import models
 from datasets.loader import data_loader
 
-# device
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 # setting training parameter
@@ -14,7 +13,7 @@ model_name = "Lenet5"
 cur_model  = models.LeNet5()
 optimizer  = optim.Adam(cur_model.parameters())
 loss_func  = nn.CrossEntropyLoss()
-epoch      = 10
+epochs     = 10
 
 # dataset
 data_name  = "MNIST"
@@ -25,13 +24,8 @@ shuffle    = True
 
 # save
 save_mode = "s" # 'm' for origin model, 's' for state_dict
-save_path = "pretrained/%s.pt" % (model_name + "_" + save_mode)
+save_path = "pretrained/%s.pt" % (model_name + "_@" + save_mode)
 
-
-# save DL model as save_mode in save_path
-# SIDE EFFECT: output the file in EXISTED folder
-# model: torch model: model for save
-# mode: str: s for state_dict, m for origin model, default for origin
 def save(model, mode):
     if mode == "s":
         torch.save(model.state_dict(), save_path)
@@ -41,17 +35,12 @@ def save(model, mode):
         print("unknown mode, save as origin mode in ", save_path)
         torch.save(model, save_path)
 
+def train(model, trainloader, epochs, loss_func, optimizer):
+    device = next(model.parameters()).device
 
-# train model on the dataset trainloader
-# model: torch.model: waiting for training
-# trainloader: enumeration: dataset for model (X, y) X as data & y as label
-# epoch: int: epoch for train
-def train(model, trainloader, epoch, loss_func, optimizer):
-    model.to(DEVICE)
-
-    for epoch in trange(10):
+    for _ in trange(epochs):
         for X, y in trainloader:
-            X, y = X.to(DEVICE), y.to(DEVICE)
+            X, y = X.to(device), y.to(device)
             pred = model(X)
             loss = loss_func(pred, y)
             optimizer.zero_grad()
@@ -63,5 +52,5 @@ def train(model, trainloader, epoch, loss_func, optimizer):
 
 if __name__ == "__main__":
     trainloader = data_loader(data_name, data_mode, loader_tag, batch_size, shuffle)
-    cur_model = train(cur_model, trainloader, epoch, loss_func, optimizer)
+    cur_model = train(cur_model, trainloader, epochs, loss_func, optimizer)
     save(cur_model, save_mode)
