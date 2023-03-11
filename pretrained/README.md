@@ -2,11 +2,12 @@
 
 能训练的模型：
 
-| 数据集  | 模型   | 准确率             |
-| ------- | ------ | ------------------ |
-| MNIST   | lenet5 | 0.9899999499320984 |
-| CIFAR10 |        |                    |
-|         |        |                    |
+| 数据集   | 模型                                                         |
+| -------- | ------------------------------------------------------------ |
+| MNIST    | lenet5                                                       |
+| CIFAR10  | vgg11,vgg13,vgg16,vgg19,resnet18,resnet34,resnet50,MobileNetV2 |
+| CIFAR100 | vgg11,vgg13,vgg16,vgg19,resnet18,resnet34,resnet50,MobileNetV2 |
+|          |                                                              |
 
 
 
