@@ -87,9 +87,10 @@ def _vgg(cfg_index, batch_norm, pretrained, mode_path, device, **kwargs):
         elif "_@m" in mode_path:
             model = torch.load(mode_path, map_location=device)
     else:
-        model = VGG(make_layers(cfgs[cfg_index], batch_norm=batch_norm), **kwargs)
+        model = VGG(make_layers(cfgs[cfg_index], batch_norm=batch_norm), **kwargs).to(device)
 
     return model
+
 
 def vgg11_bn(pretrained=False, mode_path=None, device="cpu", **kwargs):
     return _vgg("A", True, pretrained, mode_path, device, **kwargs)
