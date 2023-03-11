@@ -262,13 +262,12 @@ class ResNet(nn.Module):
 def _resnet(block, layers, pretrained, mode_path, device, **kwargs):
     if pretrained:
         if "_@s" in mode_path:
-            kwargs["init_weights"] = False
-            model = ResNet(block, layers, **kwargs)
+            model = ResNet(block, layers, **kwargs).to(device)
             model.load_state_dict(torch.load(mode_path, map_location=device))
         elif "_@m" in mode_path:
             model = torch.load(mode_path, map_location=device)
     else:
-        model = ResNet(block, layers, **kwargs)
+        model = ResNet(block, layers, **kwargs).to(device)
 
     return model
 

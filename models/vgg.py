@@ -82,7 +82,7 @@ def _vgg(cfg_index, batch_norm, pretrained, mode_path, device, **kwargs):
     if pretrained:
         if "_@s" in mode_path:
             kwargs["init_weights"] = False
-            model = VGG(make_layers(cfgs[cfg_index], batch_norm=batch_norm), **kwargs)
+            model = VGG(make_layers(cfgs[cfg_index], batch_norm=batch_norm), **kwargs).to(device)
             model.load_state_dict(torch.load(mode_path, map_location=device))
         elif "_@m" in mode_path:
             model = torch.load(mode_path, map_location=device)
@@ -101,8 +101,8 @@ def vgg13_bn(pretrained=False, mode_path=None, device="cpu", **kwargs):
 
 
 def vgg16_bn(pretrained=False, mode_path=None, device="cpu", **kwargs):
-    return _vgg("C", True, pretrained, mode_path, device, **kwargs)
+    return _vgg("D", True, pretrained, mode_path, device, **kwargs)
 
 
 def vgg19_bn(pretrained=False, mode_path=None, device="cpu", **kwargs):
-    return _vgg("D", True, pretrained, mode_path, device, **kwargs)
+    return _vgg("E", True, pretrained, mode_path, device, **kwargs)

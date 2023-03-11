@@ -122,15 +122,14 @@ class MobileNetV2(nn.Module):
         return x
 
 
-def mobilenet_v2(pretrained, mode_path, device, **kwargs):
+def mobilenet_v2(pretrained=False, mode_path=None, device="cpu", **kwargs):
     if pretrained:
         if "_@s" in mode_path:
-            kwargs["init_weights"] = False
-            model = MobileNetV2(**kwargs)
+            model = MobileNetV2(**kwargs).to(device)
             model.load_state_dict(torch.load(mode_path, map_location=device))
         elif "_@m" in mode_path:
             model = torch.load(mode_path, map_location=device)
     else:
-        model = MobileNetV2(**kwargs)
+        model = MobileNetV2(**kwargs).to(device)
 
     return model
