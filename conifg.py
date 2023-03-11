@@ -12,7 +12,7 @@ TRAIN_MODE = "train"
 TEST_MODE = "test"
 
 # model
-MODEL_NAME = "vgg13_bn"
+MODEL_NAME = "mobilenet_v2"
 
 #####################################################################################
 # save
@@ -31,4 +31,4 @@ LOAD_MODE = "s"
 LOAD_PATH = "pretrained/%s.pt" % (MODEL_NAME + "_" + DATA_NAME + "_@" + LOAD_MODE)
 
 # test model
-TEST_BATCH = 10000
+TEST_BATCH = 1000

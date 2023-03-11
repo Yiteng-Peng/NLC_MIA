@@ -4,7 +4,7 @@ from tqdm import trange
 from conifg import *
 from datasets.loader import dataset
 
-TRAIN_MODEL = models.vgg13_bn(device=DEVICE, num_classes=100)
+TRAIN_MODEL = models.mobilenet_v2(device=DEVICE, num_classes=100)
 # TRAIN_MODEL = models.vgg11_bn(pretrained=True, mode_path=SAVE_PATH, device=DEVICE)
 OPTIMIZER = optim.Adam(TRAIN_MODEL.parameters())
 

@@ -5,7 +5,7 @@ from torch.utils.data import DataLoader
 from datasets.loader import dataset
 from conifg import *
 
-TEST_MODEL = models.vgg13_bn(pretrained=True, mode_path=LOAD_PATH, device=DEVICE, num_classes=100)
+TEST_MODEL = models.mobilenet_v2(pretrained=True, mode_path=LOAD_PATH, device=DEVICE, num_classes=100)
 
 def test(model, test_data):
     # MNIST
