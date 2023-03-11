@@ -4,6 +4,10 @@ from tqdm import trange
 from conifg import *
 from datasets.loader import dataset
 
+TRAIN_MODEL = models.vgg13_bn(device=DEVICE, num_classes=100)
+# TRAIN_MODEL = models.vgg11_bn(pretrained=True, mode_path=SAVE_PATH, device=DEVICE)
+OPTIMIZER = optim.Adam(TRAIN_MODEL.parameters())
+
 def save(model, mode):
     if mode == "s":
         torch.save(model.state_dict(), SAVE_PATH)
@@ -29,6 +33,7 @@ def train(model, data, loss_func, optimizer):
 
 
 if __name__ == "__main__":
+    print(type(TRAIN_MODEL))
     # get data
     data = dataset(DATA_NAME, TRAIN_MODE)
 

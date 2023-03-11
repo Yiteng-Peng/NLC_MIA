@@ -2,9 +2,10 @@ import os
 
 import torchvision
 from torchvision import datasets
-from torch.utils.data import DataLoader, TensorDataset
+from torch.utils.data import TensorDataset
 
-DATASET_PATH = "E:/PengYiteng/NLC_MIA/datasets"
+# 这个目录设置的是主目录下的相对路径
+DATASET_PATH = "./datasets"
 
 def _CIFAR10(mode):
     if mode == "train":
