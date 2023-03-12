@@ -1,8 +1,11 @@
 .idea
 __pycache__
 
-mia_data/*.list
-mia_data/*.txt
+mia_data/dataset/*.data
+mia_data/pretrained/*.pt
+mia_data/pretrained/*.pth
+cov_data/*.list
+cov_data/*.txt
 datasets/data
 pretrained/*.pt
 pretrained/*.pth

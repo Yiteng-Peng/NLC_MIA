@@ -4,18 +4,18 @@ from tqdm import trange
 from config import *
 from datasets.loader import dataset
 
-TRAIN_MODEL = models.mobilenet_v2(device=DEVICE, num_classes=100)
-# TRAIN_MODEL = models.vgg11_bn(pretrained=True, mode_path=SAVE_PATH, device=DEVICE)
+TRAIN_MODEL = MODEL(device=DEVICE, num_classes=NUM_CLASS)
+# TRAIN_MODEL = models.vgg11_bn(pretrained=True, mode_path=SAVE_PATH, device=DEVICE, num_classes=NUM_CLASS)
 OPTIMIZER = optim.Adam(TRAIN_MODEL.parameters())
 
-def save(model, mode):
+def save(model, mode, path):
     if mode == "s":
-        torch.save(model.state_dict(), SAVE_PATH)
+        torch.save(model.state_dict(), path)
     elif mode == "m":
-        torch.save(model, SAVE_PATH)
+        torch.save(model, path)
     else:
-        print("unknown mode, save as origin mode in ", SAVE_PATH)
-        torch.save(model, SAVE_PATH)
+        print("unknown mode, save as origin mode in ", path)
+        torch.save(model, path)
 
 
 def train(model, data, loss_func, optimizer):
@@ -41,4 +41,4 @@ if __name__ == "__main__":
     train(TRAIN_MODEL, data, LOSS_FUNC, OPTIMIZER)
 
     # save model
-    save(TRAIN_MODEL, SAVE_MODE)
+    save(TRAIN_MODEL, SAVE_MODE, SAVE_PATH)
