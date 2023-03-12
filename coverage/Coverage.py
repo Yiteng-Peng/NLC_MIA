@@ -1,6 +1,8 @@
 import torch
 from tqdm import tqdm
 import os, pickle
+import numpy as np
+
 import coverage.tool as tool
 
 DEVICE = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')

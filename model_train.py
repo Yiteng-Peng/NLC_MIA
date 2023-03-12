@@ -1,7 +1,7 @@
 from torch.utils.data import DataLoader
 from tqdm import trange
 
-from conifg import *
+from config import *
 from datasets.loader import dataset
 
 TRAIN_MODEL = models.mobilenet_v2(device=DEVICE, num_classes=100)

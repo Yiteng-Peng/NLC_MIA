@@ -1,3 +1,5 @@
+from sklearn.neighbors import KernelDensity
+
 from coverage.Coverage import *
 import coverage.tool as tool
 
