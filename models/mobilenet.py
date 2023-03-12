@@ -3,7 +3,10 @@ import os
 import torch
 import torch.nn as nn
 
-__all__ = ["MobileNetV2", "mobilenet_v2"]
+__all__ = [
+    "MobileNetV2",
+    "mobilenet_v2",
+]
 
 class ConvBNReLU(nn.Sequential):
     def __init__(self, in_planes, out_planes, kernel_size=3, stride=1, groups=1):

@@ -3,7 +3,7 @@ import numpy as np
 from torch.utils.data import DataLoader
 
 from datasets.loader import dataset
-from conifg import *
+from config import *
 
 TEST_MODEL = models.mobilenet_v2(pretrained=True, mode_path=LOAD_PATH, device=DEVICE, num_classes=100)
 

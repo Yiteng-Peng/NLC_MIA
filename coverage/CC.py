@@ -1,3 +1,6 @@
+from pyflann import FLANN
+import numpy as np
+
 from coverage.Coverage import *
 import coverage.tool as tool
 
@@ -11,6 +14,7 @@ class CC(Coverage):
         self.threshold = hyper
         self.distant_dict = {}
         self.flann_dict = {}
+        self.current = 0
 
         for (layer_name, layer_size) in self.layer_size_dict.items():
             self.flann_dict[layer_name] = FLANN()

@@ -18,7 +18,7 @@ class KMNC(Coverage):
             self.range_dict[layer_name] = [torch.ones(num_neuron).to(self.device) * 10000,
                                            torch.ones(num_neuron).to(self.device) * -10000]
 
-        self.coverage_dict = {'multisec': coverage_multisec_dict}
+        self.cove_dict = {'multisec': coverage_multisec_dict}
         self.current = 0
 
     # 明白了，相当于整个覆盖率要过两遍，第一遍计算阈值，第二遍才正式计算覆盖率

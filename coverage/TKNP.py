@@ -6,14 +6,14 @@ class TKNP(Coverage):
     def init_variable(self, hyper):
         assert hyper is not None
         self.k = hyper
-        layer_pattern = {}
-        network_pattern = set()
+        self.layer_pattern = {}
+        self.network_pattern = set()
         self.current = 0
         for (layer_name, layer_size) in self.layer_size_dict.items():
             self.layer_pattern[layer_name] = set()
         self.coverage_dict = {
-            'layer_pattern': layer_pattern,
-            'network_pattern': network_pattern
+            'layer_pattern': self.layer_pattern,
+            'network_pattern': self.network_pattern
         }
 
     def calculate(self, data):

@@ -1,3 +1,5 @@
+import numpy as np
+
 from coverage.Coverage import *
 import coverage.tool as tool
 
