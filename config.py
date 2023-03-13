@@ -4,7 +4,6 @@ import models
 
 # device
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-# DEVICE = torch.device("cpu")
 
 # dataset
 DATA_NAME = "CIFAR10"
@@ -56,12 +55,14 @@ MIA_MODE = "s"
 MIA_MODEL_PATH = "pretrained/%s.pt" % (MODEL_NAME + "_" + DATA_NAME + "_@" + MIA_MODE)
 
 # dataset save path
+MIA_DATA_SHAPE = [3, 32, 32]
+MIA_DATA_NUM = 6000 # 每一类生成的数据的个数
 MIA_DATA_MODE = "split"  # split: 从原始训练集切分的数据 syn: 从模型中生成的影子数据 
 MIA_DATA_PATH = "mia_data/dataset/%s.data" % (MODEL_NAME + "_" + DATA_NAME + "_@" + MIA_DATA_MODE)
 
 # shadow model
-MIA_SHADOW_EPOCH = 10
-MIA_SHADOW_BATCH = 32
+MIA_SHADOW_EPOCH = 20
+MIA_SHADOW_BATCH = 128
 MIA_SHADOW_PATH = "mia_data/results/%s.npy" % (MODEL_NAME + "_" + str(NUM_SHADOW))
 MIA_RESULT_BATCH = 1000
 
