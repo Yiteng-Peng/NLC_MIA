@@ -67,5 +67,6 @@ MIA_RESULT_BATCH = 1000
 
 # attack model
 MIA_ATTACK_EPOCH = 10
-MIA_ATTACK_PATH = "mia_data/pretrained/%s" % (MODEL_NAME + "_" + DATA_NAME + "_@s_")
+MIA_ATTACK_BATCH = 1000
+MIA_ATTACK_PATH = "mia_data/pretrained/%s" % (MODEL_NAME + "_" + DATA_NAME + "_@s_all.pt")
 # 扩展名在写入的时候添加，因为要分片

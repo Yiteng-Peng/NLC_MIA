@@ -32,19 +32,14 @@ cfgs = {
     "A": [20, 40 ,20]
 }
 
-def _mlp(cfg_index, pretrained, mode_path, device, num_classes=10, out_channels=2):
+def _mlp(cfg_index, pretrained, weight_dict, device, num_classes=10, out_channels=2):
     if pretrained:
-        if "_@s" in mode_path:
-            model = MLP(make_mlp_layers(cfgs[cfg_index], num_classes, out_channels)).to(device)
-            model.load_state_dict(torch.load(mode_path, map_location=device))
-        elif "_@m" in mode_path:
-            model = torch.load(mode_path, map_location=device)
-        else:
-            raise NameError("Wrong model name, can't get model type, check '_@' in the model name")
+        model = MLP(make_mlp_layers(cfgs[cfg_index], num_classes, out_channels)).to(device)
+        model.load_state_dict(weight_dict)
     else:
         model = MLP(make_mlp_layers(cfgs[cfg_index], num_classes, out_channels)).to(device)
 
     return model
 
-def mlp_a(pretrained=False, mode_path=None, device="cpu", **kwargs):
-    return _mlp("A", pretrained, mode_path, device, **kwargs)
+def mlp_a(pretrained=False, weight_dict=None, device="cpu", **kwargs):
+    return _mlp("A", pretrained, weight_dict, device, **kwargs)

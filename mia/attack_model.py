@@ -35,30 +35,32 @@ class AttackModels:
 
 
     def predict(self, X_pred, y, batch=False):
-        if not batch:
-            cls_model = self.attack_models[y]
-            pred = cls_model(X_pred)
-            return pred.argmax()
-        else:
-            model_classes = np.unique(y)
-            res = []
-            for cls in model_classes:
-                X_pred_cls = X_pred[y == cls]
-                model = self.attack_models[cls]
-                attack_res = model(X_pred_cls)
-                res.append(attack_res)
-
-            return np.concatenate(res)
+        with torch.no_grad():
+            if not batch:
+                cls_model = self.attack_models[y]
+                pred = cls_model(X_pred)
+                return pred.argmax()
+            else:
+                model_classes = np.unique(y)
+                res = []
+                for cls in model_classes:
+                    X_pred_cls = X_pred[y == cls]
+                    model = self.attack_models[cls]
+                    attack_res = model(X_pred_cls)
+                    res.append(attack_res.cpu())
+                res = np.concatenate(res)
+                return np.argmax(res, axis=1)
         
     def save(self, path):
+        model_list = []
         for i in range(self.target_classes):
-            model_path = path + str(i) + ".pt"
-            torch.save(self.attack_models[i].state_dict(), model_path)
+            model_list.append(self.attack_models[i].state_dict())
+        torch.save(model_list, path)
     
     def load(self, model, path):
         model_list = []
+        state_dict_list = torch.load(path, map_location=DEVICE)
         for i in range(self.target_classes):
-            model_path = path + str(i) + ".pt"
-            model_list.append(model(pretrained=True, mode_path=model_path, 
+            model_list.append(model(pretrained=True, weight_dict=state_dict_list[i], 
                                    device=DEVICE, num_classes=self.target_classes))
         return model_list

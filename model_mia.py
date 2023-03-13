@@ -1,4 +1,6 @@
 from config import *
+from torch.utils.data import DataLoader
+import numpy as np
 
 from datasets.loader import dataset
 from model_train import train, save
@@ -31,7 +33,7 @@ if __name__ == "__main__":
     # torch.save(dataset_tuple, MIA_DATA_PATH)
     
     # ▼读取拆分好的数据
-    # train_dataset, shadow_dataset = torch.load(MIA_DATA_PATH)
+    train_dataset, shadow_dataset = torch.load(MIA_DATA_PATH)
     # print("Read finish, shadow dataset: ", len(shadow_dataset))
     
     # 训练模型
@@ -44,9 +46,25 @@ if __name__ == "__main__":
     #                              MIA_SHADOW_EPOCH, MIA_SHADOW_BATCH, MIA_RESULT_BATCH)
     # shadow_models.save_results(MIA_SHADOW_PATH)
     # ▼读取训练好的影子数据
-    shadow_data = ShadowModels.load_results(MIA_SHADOW_PATH)
+    # shadow_data = ShadowModels.load_results(MIA_SHADOW_PATH)
     
     # 3、训练攻击模型
-    attack_models = AttackModels(NUM_CLASS, ATTACK_MODEL)
-    attack_models.build(shadow_data, MIA_ATTACK_EPOCH)
-    attack_models.save(MIA_ATTACK_PATH)
+    # attack_models = AttackModels(NUM_CLASS, ATTACK_MODEL)
+    # attack_models.build(shadow_data, MIA_ATTACK_EPOCH)
+    # attack_models.save(MIA_ATTACK_PATH)
+    
+    # 4、进行MIA攻击并测评
+    attack_models = AttackModels(NUM_CLASS, ATTACK_MODEL, pretrained=True, path=MIA_ATTACK_PATH)
+    
+    trainloader = DataLoader(train_dataset, batch_size=MIA_ATTACK_BATCH)
+    acc_list = []
+    for X, y in trainloader:
+        X = X.to(DEVICE)
+        X_pred = TARGET_MODEL(X)
+        in_pred = attack_models.predict(X_pred, y, batch=True)
+        # 对于in
+        acc_list.append(np.sum(in_pred) / len(in_pred))
+        # 对于out
+        # acc_list.append(1 - np.sum(in_pred) / len(in_pred))
+        
+    print(np.mean(acc_list))
