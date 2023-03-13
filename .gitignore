@@ -4,8 +4,13 @@ __pycache__
 mia_data/dataset/*.data
 mia_data/pretrained/*.pt
 mia_data/pretrained/*.pth
+mia_data/results/*.npy
+mia_data/results/*.npz
+mia_data/results/*.data
+
 cov_data/*.list
 cov_data/*.txt
+
 datasets/data
 pretrained/*.pt
 pretrained/*.pth

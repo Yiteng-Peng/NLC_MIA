@@ -52,11 +52,20 @@ INPUT_SIZE    = 32
 ################################### mia attack #####################################
 NUM_SHADOW = 3
 # target model
-MIA_EPOCH = 10
-MIA_BATCH = 32
 MIA_MODE = "s"
 MIA_MODEL_PATH = "pretrained/%s.pt" % (MODEL_NAME + "_" + DATA_NAME + "_@" + MIA_MODE)
 
 # dataset save path
 MIA_DATA_MODE = "split"  # split: 从原始训练集切分的数据 syn: 从模型中生成的影子数据 
 MIA_DATA_PATH = "mia_data/dataset/%s.data" % (MODEL_NAME + "_" + DATA_NAME + "_@" + MIA_DATA_MODE)
+
+# shadow model
+MIA_SHADOW_EPOCH = 10
+MIA_SHADOW_BATCH = 32
+MIA_SHADOW_PATH = "mia_data/results/%s.npy" % (MODEL_NAME + "_" + str(NUM_SHADOW))
+MIA_RESULT_BATCH = 1000
+
+# attack model
+MIA_ATTACK_EPOCH = 10
+MIA_ATTACK_PATH = "mia_data/pretrained/%s" % (MODEL_NAME + "_" + DATA_NAME + "_@s_")
+# 扩展名在写入的时候添加，因为要分片

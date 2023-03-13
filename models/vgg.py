@@ -86,6 +86,8 @@ def _vgg(cfg_index, batch_norm, pretrained, mode_path, device, **kwargs):
             model.load_state_dict(torch.load(mode_path, map_location=device))
         elif "_@m" in mode_path:
             model = torch.load(mode_path, map_location=device)
+        else:
+            raise NameError("Wrong model name, can't get model type, check '_@' in the model name")
     else:
         model = VGG(make_layers(cfgs[cfg_index], batch_norm=batch_norm), **kwargs).to(device)
 
