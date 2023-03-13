@@ -22,11 +22,11 @@ class AttackModels:
 
         # train model
         for epoch in trange(epochs):
-            for i, model in tqdm(enumerate(self.attack_models)):
+            for i, model in enumerate(self.attack_models):
                 optimizer = optim.Adam(model.parameters())
                 X = data[class_label == i]
                 y = membership_label[class_label == i]
-                X, y = torch.Tensor(X).to(DEVICE), torch.Tensor(y).to(DEVICE)
+                X, y = torch.Tensor(X).to(DEVICE), torch.Tensor(y).long().to(DEVICE)
                 pred = model(X)
                 loss = LOSS_FUNC(pred, y)
                 optimizer.zero_grad()

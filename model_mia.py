@@ -14,7 +14,7 @@ TARGET_MODEL = MODEL(pretrained=True, mode_path=MIA_MODEL_PATH,
 # TARGET_MODEL = MODEL(device=DEVICE, num_classes=NUM_CLASS)
 # OPTIMIZER = optim.Adam(TARGET_MODEL.parameters())
 SHADOW_MODEL = MODEL(device=DEVICE, num_classes=NUM_CLASS)
-ATTACK_MODEL = MODEL
+ATTACK_MODEL = models.mlp_a
 
 # 如果想接着训练，增加epoch的话，那么数据必须得保存下来的
 
